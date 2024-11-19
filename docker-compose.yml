@@ -1,0 +1,68 @@
+services:
+  user_service:
+    build: 
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./user_service:/user_service
+    env_file:
+      - ./user_service/.env
+    command: python manage.py runserver 0.0.0.0:8000 
+    depends_on:
+      - database
+
+  database:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./user_service/.env
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    ports:
+      - "5432:5432"
+volumes:
+  postgres_data:
+
+  # redis:
+  #   image: redis:7.0.5-alpine
+  #   hostname: redis
+
+  # worker:
+  #   build: 
+  #     context: .
+  #   hostname: worker
+  #   entrypoint: celery
+  #   command: -A celery_app.app worker --loglevel=info
+  #   volumes:
+  #     - ./user_service:/user_service
+  #   links:
+  #     - redis
+  #   depends_on:
+  #     - redis
+  #     - database
+  #   environment:
+  #     - DB_HOST=database
+  #     - DB_NAME=users
+  #     - DB_USER=dbuser
+  #     - DB_PASS=pass
+
+  # flower:
+  #   build: 
+  #     context: .
+  #   hostname: flower
+  #   entrypoint: celery
+  #   command: -A celery_app.app flower
+  #   volumes:
+  #     - ./user_service:/user_service
+  #   links:
+  #     - redis
+  #   depends_on:
+  #     - redis
+  #   ports:
+  #     - "5555:5555"
+
+
