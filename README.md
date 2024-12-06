@@ -42,13 +42,13 @@ Follow these steps to set up the project for local development:
 6. **Make Migrations**  
    Make migrations by using those commands:
    ```bash
-    docker-compose --env-file .env run --rm user_service bash -c "python manage.py makemigrations"
-    docker-compose --env-file .env run --rm user_service bash -c "python manage.py migrate"
+    docker-compose --env-file ./user_service/.env run --rm user_service bash -c "python manage.py makemigrations"
+    docker-compose --env-file ./user_service/.env run --rm user_service bash -c "python manage.py migrate"
    ```
 7. **Create Super User (First-Time Setup Only)**  
    Create a superuser to have an access to your admin pannel:
    ```bash
-    docker-compose --env-file .env run --rm user_service bash -c "python manage.py createsuperuser"
+    docker-compose --env-file ./user_service/.env run --rm user_service bash -c "python manage.py createsuperuser"
    ```
 8. **Run pre-commit**  
    Run `pre-commit` in the current repository:
