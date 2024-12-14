@@ -1,5 +1,4 @@
 from .base import *
-from .base import BASE_DIR
 
 
 # Database
@@ -8,6 +7,12 @@ from .base import BASE_DIR
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+        "NAME": ":memory:",
+        "USER": "",
+        "PASSWORD": "",
+        "HOST": "",
+        "PORT": "",
+    },
 }
+
+PASSWORD_HASHERS = ("django.contrib.auth.hashers.MD5PasswordHasher",)
