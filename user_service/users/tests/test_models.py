@@ -1,3 +1,6 @@
+import secrets
+import string
+
 import pytest
 from django.db.utils import IntegrityError
 from users.models import AccountOwner, AccountUser, Admin, BaseClient, BaseUser, Staff
@@ -5,6 +8,11 @@ from users.models import AccountOwner, AccountUser, Admin, BaseClient, BaseUser,
 
 @pytest.mark.django_db
 class TestAdminModel:
+
+    @staticmethod
+    def generate_password(length=12):
+        alphabet = string.ascii_letters + string.digits + string.punctuation
+        return "".join(secrets.choice(alphabet) for _ in range(length))
 
     def test_admin_creation(self, admin):
         """Check if Admin is created successfully"""
@@ -23,11 +31,12 @@ class TestAdminModel:
 
     def test_admin_default_role(self):
         """Check if role is set by default as ADMIN"""
+        password = self.generate_password()
         admin = Admin.objects.create_admin(
             first_name="Alice",
             last_name="Smith",
             email="alice.smith@example.com",
-            password="superpass123",
+            password=password,
         )
         assert admin.role == BaseUser.Role.ADMIN
 
@@ -51,6 +60,11 @@ class TestAdminModel:
 @pytest.mark.django_db
 class TestStaffModel:
 
+    @staticmethod
+    def generate_password(length=12):
+        alphabet = string.ascii_letters + string.digits + string.punctuation
+        return "".join(secrets.choice(alphabet) for _ in range(length))
+
     def test_staff_creation(self, staff):
         """Check if Staff is created successfully"""
         assert staff.role == BaseUser.Role.STAFF
@@ -68,11 +82,12 @@ class TestStaffModel:
 
     def test_staff_default_role(self):
         """Check if role is set by default as STAFF"""
+        password = self.generate_password()
         staff = Staff.objects.create_staff(
             first_name="Alice",
             last_name="Smith",
             email="alice.smith@example.com",
-            password="superpass123",
+            password=password,
         )
         assert staff.role == BaseUser.Role.STAFF
 
@@ -96,6 +111,11 @@ class TestStaffModel:
 @pytest.mark.django_db
 class TestAccountOwnerModel:
 
+    @staticmethod
+    def generate_password(length=12):
+        alphabet = string.ascii_letters + string.digits + string.punctuation
+        return "".join(secrets.choice(alphabet) for _ in range(length))
+
     def test_account_owner_creation(self, account_owner):
         """Check if AccountOwner is created successfully"""
         assert account_owner.role == BaseClient.Role.ACCOUNT_OWNER
@@ -118,6 +138,7 @@ class TestAccountOwnerModel:
 
     def test_account_owner_default_role(self):
         """Check if role is set by default as ACCOUNT_OWNER"""
+        password = self.generate_password()
         account_owner = AccountOwner.objects.create_account_owner(
             first_name="Alice",
             last_name="Smith",
@@ -127,12 +148,13 @@ class TestAccountOwnerModel:
             country="Wonderland",
             city="Magic City",
             domain="example.com",
-            password="superpass123",
+            password=password,
         )
         assert account_owner.role == BaseClient.Role.ACCOUNT_OWNER
 
     def test_account_owner_invalid_phone_number(self):
         """Check if invalid phone number raises an error"""
+        password = self.generate_password()
         with pytest.raises(ValueError):
             AccountOwner.objects.create_account_owner(
                 first_name="Invalid",
@@ -143,7 +165,7 @@ class TestAccountOwnerModel:
                 country="Nowhere",
                 city="NoCity",
                 domain="invalid.com",
-                password="superpass123",
+                password=password,
             )
 
     def test_account_owner_full_name(self, account_owner):
@@ -165,6 +187,11 @@ class TestAccountOwnerModel:
 
 @pytest.mark.django_db
 class TestAccountUserModel:
+
+    @staticmethod
+    def generate_password(length=12):
+        alphabet = string.ascii_letters + string.digits + string.punctuation
+        return "".join(secrets.choice(alphabet) for _ in range(length))
 
     def test_account_user_creation(self, account_user):
         """Check if AccountUser is created successfully"""
@@ -188,6 +215,7 @@ class TestAccountUserModel:
 
     def test_account_user_default_role(self):
         """Check if role is set by default as ACCOUNT_USER"""
+        password = self.generate_password()
         account_user = AccountUser.objects.create_account_user(
             first_name="Alice",
             last_name="Smith",
@@ -197,12 +225,13 @@ class TestAccountUserModel:
             country="Wonderland",
             city="Magic City",
             domain="example.com",
-            password="superpass123",
+            password=password,
         )
         assert account_user.role == BaseClient.Role.ACCOUNT_USER
 
     def test_account_user_invalid_phone_number(self):
         """Check if invalid phone number raises an error"""
+        password = self.generate_password()
         with pytest.raises(ValueError):
             AccountUser.objects.create_account_user(
                 first_name="Invalid",
@@ -213,7 +242,7 @@ class TestAccountUserModel:
                 country="Nowhere",
                 city="NoCity",
                 domain="invalid.com",
-                password="superpass123",
+                password=password,
             )
 
     def test_account_user_full_name(self, account_user):

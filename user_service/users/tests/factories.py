@@ -1,3 +1,6 @@
+import secrets
+import string
+
 import factory
 from django.utils import timezone
 from factory.django import DjangoModelFactory
@@ -15,8 +18,13 @@ class BaseUserFactory(DjangoModelFactory):
         model = BaseUser
         skip_postgeneration_save = True
 
+    @staticmethod
+    def generate_password(length=12):
+        alphabet = string.ascii_letters + string.digits + string.punctuation
+        return "".join(secrets.choice(alphabet) for _ in range(length))
+
     email = factory.LazyAttribute(lambda _: fake.unique.email()[:255])
-    password = factory.PostGenerationMethodCall("set_password", "pass123")
+    password = factory.PostGenerationMethodCall("set_password", factory.LazyFunction(generate_password))
     first_name = factory.LazyAttribute(lambda _: fake.unique.first_name()[:30])
     last_name = factory.LazyAttribute(lambda _: fake.unique.last_name()[:30])
     date_joined = factory.LazyFunction(timezone.now)

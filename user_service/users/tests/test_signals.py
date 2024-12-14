@@ -1,3 +1,6 @@
+import secrets
+import string
+
 import pytest
 from users.models import AccountOwner, AccountUser, BaseClient
 
@@ -5,10 +8,16 @@ from users.models import AccountOwner, AccountUser, BaseClient
 @pytest.mark.django_db
 class TestAccountRelatedInstanceSignal:
 
+    @staticmethod
+    def generate_password(length=12):
+        alphabet = string.ascii_letters + string.digits + string.punctuation
+        return "".join(secrets.choice(alphabet) for _ in range(length))
+
     def test_account_owner_created(self):
         """
         Check, that the BaseClient obj with the role = ACCOUNT_OWNER cteates AccountOwner.
         """
+        password = self.generate_password()
         base_client = BaseClient.objects.create(
             first_name="Alice",
             last_name="Smith",
@@ -19,7 +28,7 @@ class TestAccountRelatedInstanceSignal:
             city="Magic City",
             domain="example.com",
             role=BaseClient.Role.ACCOUNT_OWNER,
-            password="12345",
+            password=password,
         )
 
         # Check, if AccountOwner was created
@@ -32,6 +41,7 @@ class TestAccountRelatedInstanceSignal:
         """
         Check, that the BaseClient obj with the role = ACCOUNT_USER cteates AccountUser.
         """
+        password = self.generate_password()
         base_client = BaseClient.objects.create(
             first_name="Bob",
             last_name="Johnson",
@@ -42,7 +52,7 @@ class TestAccountRelatedInstanceSignal:
             city="Dream City",
             domain="example.org",
             role=BaseClient.Role.ACCOUNT_USER,
-            password="123492",
+            password=password,
         )
 
         # Check, if AccountUser was created
