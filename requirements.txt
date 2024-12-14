@@ -38,6 +38,8 @@ python-dotenv
 pytest
 pytest-django
 pytest-factoryboy
+Faker
+
 
 
 

@@ -24,7 +24,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "default-secret-key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost")
+ALLOWED_HOSTS = (os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost"),)
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
