@@ -1,6 +1,6 @@
 # USER Service – Microservice for Email Marketing App
 
-[![Build Status](#)](link-to-build-status) <!-- Update with the actual URL for build status -->
+[![Build Status](https://github.com/dimaluz/UserService/actions/workflows/pytest.yml/badge.svg))](link-to-build-status) <!-- Update with the actual URL for build status -->
 
 USER Service is a microservice designed for managing users within an email marketing application. This project is built with Django and includes Docker for seamless setup and deployment.
 
