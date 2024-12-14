@@ -35,7 +35,7 @@ def create_user_related_instance(sender, instance, created, **kwargs):
 def create_account_related_instance(sender, instance, created, **kwargs):
     if created:
         try:
-            if instance.role == BaseUser.Role.ACCOUNT_OWNER:
+            if instance.role == BaseClient.Role.ACCOUNT_OWNER:
                 AccountOwner.objects.create_account_owner(
                     first_name=instance.first_name,
                     last_name=instance.last_name,
@@ -49,7 +49,7 @@ def create_account_related_instance(sender, instance, created, **kwargs):
                     password=instance.password,
                 )
                 logger.info(f"AccountOwner created for user {instance.email}")
-            elif instance.role == BaseUser.Role.ACCOUNT_USER:
+            elif instance.role == BaseClient.Role.ACCOUNT_USER:
                 AccountUser.objects.create_account_user(
                     first_name=instance.first_name,
                     last_name=instance.last_name,
