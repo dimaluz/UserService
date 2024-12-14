@@ -1,7 +1,13 @@
+import os
+
 import pytest
 from faker import Faker
 
 from .factories import AccountOwnerFactory, AccountUserFactory, AdminFactory, StaffFactory
+
+
+if not os.environ.get("DJANGO_SETTINGS_MODULE"):
+    raise RuntimeError("DJANGO_SETTINGS_MODULE is not set")
 
 
 @pytest.fixture
