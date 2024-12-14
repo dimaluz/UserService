@@ -28,12 +28,12 @@ jobs:
 
     - name: Set environment variables
       run: |
-        echo "DJANGO_SETTINGS_MODULE=user_service.config.settings.base" >> $GITHUB_ENV
+        echo "DJANGO_SETTINGS_MODULE=user_service.config.settings.staging" >> $GITHUB_ENV
         echo "PYTHONPATH=$PYTHONPATH:$(pwd)/user_service" >> $GITHUB_ENV
 
     - name: Run tests
       env:
-        DJANGO_SETTINGS_MODULE: user_service.config.settings.base
+        DJANGO_SETTINGS_MODULE: user_service.config.settings.staging
         PYTHONPATH: ${{ env.PYTHONPATH }}
       run: |
         . venv/bin/activate
