@@ -1,4 +1,5 @@
 import os
+import redis
 
 
 # Database
@@ -13,3 +14,12 @@ DATABASES = {
         "PASSWORD": os.environ.get("DB_PASS", "password"),
     }
 }
+
+#REDIS as STORAGE
+REDIS_CLIENT = redis.StrictRedis(
+    host=os.environ.get("REDIS_HOST", "redis"),
+    port=os.environ.get("REDIS_PORT", "6379"),
+    password=os.environ.get("REDIS_PASSWORD", "password"),
+    db=0,
+    decode_responses=True,
+)
